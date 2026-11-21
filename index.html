@@ -97,6 +97,9 @@
         </div>
         <div class="flex flex-wrap gap-3 w-full max-w-sm">
           <button id="downloadBtn" type="button" class="flex-1 py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 font-semibold text-sm">⬇️ Görseli İndir</button>
+          <button id="sendToVideoBtn" type="button" class="flex-1 py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-sm transition">
+            🎬 Video Birleştiriciye Gönder
+          </button>
           <button id="copyUrlBtn" type="button" class="flex-1 py-2.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 font-semibold text-sm">🔗 Linki Kopyala</button>
         </div>
         <p id="copyMsg" class="text-xs text-emerald-400 hidden">✅ Görsel bağlantısı kopyalandı! Video Birleştirici'ye yapıştırabilirsiniz.</p>
@@ -286,6 +289,22 @@ demo.launch(share=True)</code></pre>
       navigator.clipboard.writeText(currentImageUrl);
       copyMsg.classList.remove("hidden");
     });
+  
+    
+    const sendToVideoBtn = document.getElementById("sendToVideoBtn");
+    if (sendToVideoBtn) {
+      sendToVideoBtn.addEventListener("click", () => {
+        if (!currentImageUrl) return;
+        const promptVal = document.getElementById("promptInput")?.value.trim() || "Yeni AI Sahne";
+        localStorage.setItem("pending_video_scene", JSON.stringify({
+          img: currentImageUrl,
+          cap: promptVal.slice(0, 120),
+          dur: 4
+        }));
+        window.location.href = "https://" + window.location.hostname.split(".")[0] + ".github.io/video-studyo/";
+      });
+    }
+
   </script>
 </body>
 </html>
